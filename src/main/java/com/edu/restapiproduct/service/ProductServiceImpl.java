@@ -4,10 +4,12 @@ import com.edu.restapiproduct.dto.ProductDTO;
 import com.edu.restapiproduct.model.Product;
 import com.edu.restapiproduct.repository.ProductRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-public class ProductServiceImpl implements ProductService{
+import java.util.stream.Collectors;
+@Service
+public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ModelMapper mapper;
 
@@ -17,27 +19,47 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return null;
+    public List<ProductDTO> getAllProducts() {
+
+        List<Product> products = productRepository.findAll();
+
+        return products
+                .stream()
+                .map(prd -> mapper.map(prd, ProductDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Product getProduct(Integer productId) {
-        return null;
+    public ProductDTO getProduct(Integer productId) {
+
+        Product product = productRepository.findById(productId).orElseThrow(RuntimeException::new);
+
+        return mapper.map(product, ProductDTO.class);
     }
 
     @Override
-    public Product save(ProductDTO productDTO) {
-        return null;
+    public ProductDTO save(ProductDTO productDTO) {
+
+        Product product = mapper.map(productDTO,Product.class);
+
+        return mapper.map(productRepository.save(product),ProductDTO.class);
     }
 
     @Override
-    public Product updateProduct(Integer productId, ProductDTO productDTO) {
-        return null;
+    public ProductDTO updateProduct(Integer productId, ProductDTO productDTO) {
+
+        Product product = productRepository.findById(productId).orElseThrow(RuntimeException::new);
+        product.setName(productDTO.getName());
+        product.setPrice(productDTO.getPrice());
+
+        return mapper.map(productRepository.save(product),ProductDTO.class);
     }
 
     @Override
     public void delete(Integer productId) {
 
+        Product product = productRepository.findById(productId).orElseThrow(RuntimeException::new);
+
+        productRepository.delete(product);
     }
 }
