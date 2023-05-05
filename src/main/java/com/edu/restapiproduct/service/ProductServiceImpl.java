@@ -49,6 +49,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO updateProduct(Integer productId, ProductDTO productDTO) {
 
         Product product = productRepository.findById(productId).orElseThrow(RuntimeException::new);
+       product.setId(productDTO.getId());
         product.setName(productDTO.getName());
         product.setPrice(productDTO.getPrice());
 
