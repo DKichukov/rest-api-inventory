@@ -1,7 +1,9 @@
 package com.edu.restapiproduct.services;
 
 import com.edu.restapiproduct.dtos.ProductDTO;
+import com.edu.restapiproduct.models.Category;
 import com.edu.restapiproduct.models.Product;
+import com.edu.restapiproduct.repositories.CategoryRepository;
 import com.edu.restapiproduct.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
     private final ModelMapper mapper;
 
     @Override
@@ -41,18 +44,26 @@ public class ProductServiceImpl implements ProductService {
         return mapper.map(productRepository.save(product), ProductDTO.class);
     }
 
+    //partial updateProduct is possible
     @Override
-    public ProductDTO updateProduct(Integer productId, ProductDTO productDTO) {
+    public void updateProduct(Integer productId, ProductDTO productDTO) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(RuntimeException::new);
-
-        product.setId(productDTO.getId());
-        product.setName(productDTO.getName());
-        product.setPrice(productDTO.getPrice());
-        product.setDescription(productDTO.getDescription());
-//        product.setCategory(productDTO.getCategory());
-
-        return mapper.map(productRepository.save(product), ProductDTO.class);
+        if (productDTO.getName() != null && !productDTO.getName().isEmpty()) {
+            product.setName(productDTO.getName());
+        }
+        if (productDTO.getPrice() != 0) {
+            product.setPrice(productDTO.getPrice());
+        }
+        if (productDTO.getDescription() != null && !productDTO.getDescription().isEmpty()) {
+            product.setDescription(productDTO.getDescription());
+        }
+        if (productDTO.getCategory() != null) {
+            Category category = categoryRepository.findById(productDTO.getCategory().getId())
+                    .orElseThrow(RuntimeException::new);
+            product.setCategory(category);
+            productRepository.save(product);
+        }
     }
 
     @Override
@@ -60,7 +71,6 @@ public class ProductServiceImpl implements ProductService {
 
         Product product = productRepository.findById(productId)
                 .orElseThrow(RuntimeException::new);
-
         productRepository.delete(product);
     }
 }

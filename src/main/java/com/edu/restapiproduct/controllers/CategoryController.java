@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -20,14 +21,15 @@ public class CategoryController {
         List<CategoryDTO> categories = categoryService.getAllCategories();
         return ResponseEntity.ok(categories);
     }
+
     @GetMapping(path = "{categoryId}")
-    public ResponseEntity<CategoryDTO>getCategory(@PathVariable("categoryId") Integer id) {
+    public ResponseEntity<CategoryDTO> getCategory(@PathVariable("categoryId") Integer id) {
         CategoryDTO categoryDTO = categoryService.getCategory(id);
         return ResponseEntity.ok(categoryDTO);
     }
 
     @PostMapping
-    public ResponseEntity<CategoryDTO> createCategory(@RequestBody CategoryDTO categoryDTO) {
+    public ResponseEntity<CategoryDTO> createCategory(@RequestBody @Valid CategoryDTO categoryDTO) {
         CategoryDTO createdCategory = categoryService.saveCategory(categoryDTO);
         return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
     }
