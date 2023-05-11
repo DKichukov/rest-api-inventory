@@ -1,14 +1,11 @@
-package com.edu.restapiproduct.model;
+package com.edu.restapiproduct.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,11 +19,10 @@ public class Product {
     private Integer id;
     private String name;
     private double price;
-    @Column(nullable = false, updatable = false)
-    @CreatedDate
-    private LocalDateTime createdAt;
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
+    private String description;
+    @ManyToOne
+    @JoinColumn(name = "category_id",referencedColumnName = "id")
+    private Category category;
 
 
 }

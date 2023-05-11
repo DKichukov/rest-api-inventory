@@ -1,7 +1,6 @@
-package com.edu.restapiproduct.service;
+package com.edu.restapiproduct.services;
 
-import com.edu.restapiproduct.dto.ProductDTO;
-import com.edu.restapiproduct.model.Product;
+import com.edu.restapiproduct.dtos.ProductDTO;
 
 import java.util.List;
 

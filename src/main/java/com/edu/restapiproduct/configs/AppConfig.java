@@ -1,4 +1,4 @@
-package com.edu.restapiproduct.config;
+package com.edu.restapiproduct.configs;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

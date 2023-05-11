@@ -1,8 +1,8 @@
-package com.edu.restapiproduct.service;
+package com.edu.restapiproduct.services;
 
-import com.edu.restapiproduct.dto.ProductDTO;
-import com.edu.restapiproduct.model.Product;
-import com.edu.restapiproduct.repository.ProductRepository;
+import com.edu.restapiproduct.dtos.ProductDTO;
+import com.edu.restapiproduct.models.Product;
+import com.edu.restapiproduct.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

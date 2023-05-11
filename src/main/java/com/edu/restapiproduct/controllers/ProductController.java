@@ -1,7 +1,7 @@
-package com.edu.restapiproduct.controller;
+package com.edu.restapiproduct.controllers;
 
-import com.edu.restapiproduct.dto.ProductDTO;
-import com.edu.restapiproduct.service.ProductService;
+import com.edu.restapiproduct.dtos.ProductDTO;
+import com.edu.restapiproduct.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
