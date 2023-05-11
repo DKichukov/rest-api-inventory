@@ -5,10 +5,13 @@ import com.edu.restapiproduct.dtos.ProductDTO;
 import java.util.List;
 
 public interface ProductService {
-    public List<ProductDTO> getAllProducts();
-    public ProductDTO getProduct(Integer productId);
-//    Optional<ProductDTO> findById(int id);
-    public ProductDTO save(ProductDTO productDTO);
-    public ProductDTO updateProduct(Integer productId, ProductDTO productDTO);
-    public void delete(Integer productId);
+    List<ProductDTO> getAllProducts();
+
+    ProductDTO getProduct(Integer productId);
+
+    ProductDTO save(ProductDTO productDTO);
+
+    ProductDTO updateProduct(Integer productId, ProductDTO productDTO);
+
+    void delete(Integer productId);
 }
