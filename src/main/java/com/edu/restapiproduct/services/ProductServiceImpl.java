@@ -1,6 +1,7 @@
 package com.edu.restapiproduct.services;
 
 import com.edu.restapiproduct.dtos.ProductDTO;
+import com.edu.restapiproduct.exceptions.ResourceAlreadyExistsException;
 import com.edu.restapiproduct.models.Category;
 import com.edu.restapiproduct.models.Product;
 import com.edu.restapiproduct.repositories.CategoryRepository;
@@ -39,6 +40,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO save(ProductDTO productDTO) {
+        Product existingProduct = productRepository.findByName(productDTO.getName());
+        System.out.println(productDTO.getName());
+
+        if (existingProduct != null) {
+            throw new ResourceAlreadyExistsException("Product with name " + productDTO.getName() + " already exists");
+        }
         Product product = mapper.map(productDTO, Product.class);
 
         return mapper.map(productRepository.save(product), ProductDTO.class);
