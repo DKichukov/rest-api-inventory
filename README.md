@@ -1,4 +1,4 @@
-# Inventory App
+# Inventory API project
 
 This is a simple Spring Boot project for managing product inventory. It allows you to create, read, update, and delete products and categories.
 
