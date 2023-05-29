@@ -11,7 +11,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -22,26 +21,23 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDTO> getAllProducts() {
-        List<Product> products = productRepository.findAll();
 
-        return products
+        return productRepository.findAll()
                 .stream()
                 .map(prd -> mapper.map(prd, ProductDTO.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
     public ProductDTO getProduct(Integer productId) {
-        Product product = productRepository.findById(productId)
-                .orElseThrow(RuntimeException::new);
 
-        return mapper.map(product, ProductDTO.class);
+        return mapper.map(productRepository.findById(productId)
+                .orElseThrow(RuntimeException::new), ProductDTO.class);
     }
 
     @Override
     public ProductDTO save(ProductDTO productDTO) {
         Product existingProduct = productRepository.findByName(productDTO.getName());
-        System.out.println(productDTO.getName());
 
         if (existingProduct != null) {
             throw new ResourceAlreadyExistsException("Product with name " + productDTO.getName() + " already exists");
